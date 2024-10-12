@@ -1,0 +1,609 @@
+<mvc:View controllerName="frontend.controller.Master"
+		 xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:layout="sap.ui.layout"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt"
+    xmlns:webc="sap.ui.webc.main"
+    xmlns:svm="sap.ui.comp.smartvariants"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <!-- <tnt:ToolHeader
+        id="_IDGenToolHeader1"
+        class="tool-header"
+    >
+        <Image
+            id="_IDGenImage1"
+            src="./img/sapCompanyLogo.png"
+            class="tool-header-logo"
+            alt="Logo"
+        />
+        <Title
+            id="_IDGenText111"
+            text="{i18n>title}"
+            wrapping="true"
+            class="tool-header-text m-l-24"
+            level="H1"
+        />
+    </tnt:ToolHeader> -->
+    <f:DynamicPage
+        id="page"
+        class="header-custom-app"
+    >
+        <f:title>
+            <f:DynamicPageTitle class="titleHeader titleHeader-div-h-auto">
+                <f:heading>
+                    <Title
+                        text="{i18n>headerTitle}"
+                        wrapping="true"
+                        class="titleHeaderText"
+                        level="H2"
+                    />
+                </f:heading>
+
+                <f:expandedContent>
+                    <HBox
+                        id="_IDGenHBox1test"
+                        class="sapUiTinyMarginTop"
+                    >
+                        <Label text="{i18n>description} {i18n>nomeDottore}" />
+                    </HBox>
+                </f:expandedContent>
+
+                <f:navigationActions>
+                    <ToolbarSpacer />
+
+                    <Button
+                        text="{i18n>AgendaButton}"
+                        press=".onNavToAgendaButtonPress"
+                        type="Transparent"
+                        tooltip="{i18n>labelAgendaButtonTooltip}"
+                    />
+                    <Button
+                        text="{i18n>EmailButton}"
+                        press=".onEmailButtonPress"
+                        type="Transparent"
+                        tooltip="{i18n>labelEmailButtonTooltip}"
+                    />
+                    <Button
+                        id="_IDGenButtonInformative"
+                        press="handlePopoverPress"
+                        ariaHasPopup="Dialog"
+                        icon="sap-icon://message-information"
+                        tooltip="{i18n>labelUlterioriInfo}"
+                        ariaLabelledBy="{i18n>labelUlterioriInfo}"
+                        ariaDescribedBy="{i18n>labelUlterioriInfo}"
+                    />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+
+        <f:header>
+            <f:DynamicPageHeader pinnable="true">
+                <fb:FilterBar
+                    id="filterbar"
+                    persistencyKey="myPersKey"
+                    useToolbar="false"
+                    search=".onSearch"
+                    class="custom-filterbar"
+                    showFilterConfiguration="false"
+                    showGoOnFB="false"
+                    showClearOnFB="false"
+                    clear=".onResetFiltersPress"
+                    filterChange=".onFilterChange"
+                    afterVariantLoad=".onAfterVariantLoad"
+                >
+                    <fb:filterGroupItems>
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItem1"
+                            name="nomeTemplate"
+                            label="{i18n>labelNomeTemplate}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Input
+                                    id="idNomeTemplate"
+                                    placeholder="{i18n>labelCercaNomeTemplate}"
+                                    maxLength="200"
+                                />
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItem2"
+                            name="tipoTemplate"
+                            label="{i18n>labelTipologiaTemplate}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Select
+                                    id="idTipologiaTemplate"
+                                    selectedKey="tutti"
+                                    change="onTipologiaChange"
+                                >
+                                    <core:Item
+                                        key="tutti"
+                                        text="Tutti"
+                                    />
+                                    <core:Item
+                                        key=""
+                                        text="Standard"
+                                    />
+                                    <core:Item
+                                        key="X"
+                                        text="Freestyle"
+                                    />
+                                </Select>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItem3"
+                            name="livelloTemplate"
+                            label="{i18n>labelFase}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Select
+                                    id="idLivelloTemplate"
+                                    items="{
+						            path: 'selectFaseModel>/items'
+					                }"
+                                >
+                                    <core:ListItem
+                                        key="{selectFaseModel>key}"
+                                        text="{selectFaseModel>value}"
+                                    />
+                                </Select>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItem4"
+                            name="categoriaTemplate"
+                            label="{i18n>labelCategoria}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Select
+                                    id="idCategoriaTemplate"
+                                    items="{
+						            path: 'selectCategoriaModel>/items'
+					                }"
+                                >
+                                    <core:ListItem
+                                        key="{selectCategoriaModel>key}"
+                                        text="{selectCategoriaModel>value}"
+                                    />
+                                </Select>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItem6"
+                            name="sottocategoriaTemplate"
+                            label="{i18n>labelSottoCategoria}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Select
+                                    id="idsottocategoriatemplate"
+                                    items="{
+						            path: 'selectSubCategoriaModel>/items'
+					                }"
+                                >
+                                    <core:ListItem
+                                        key="{selectSubCategoriaModel>key}"
+                                        text="{selectSubCategoriaModel>value}"
+                                    />
+                                </Select>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItem9"
+                            name="versioneTemplate"
+                            label="{i18n>labelVersione}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Input
+                                    id="idversione"
+                                    placeholder="{i18n>labelCercaVersione}"
+                                    maxLength="24"
+                                    type="Number"
+                                />
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItem5"
+                            name="pianoTemplate"
+                            label="{i18n>labelPiano}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Select
+                                    id="idPianoTemplate"
+                                    items="{
+						            path: 'selectPianoModel>/items'
+					                }"
+                                    selectedKey="tutti"
+                                >
+                                    <core:ListItem
+                                        key="{selectPianoModel>key}"
+                                        text="{selectPianoModel>value}"
+                                    />
+                                </Select>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItemDateRange"
+                            name="dateRange"
+                            label="{i18n>labelPeridoValidita}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <DateRangeSelection
+                                    id="idDateRangeSelection"
+                                    delimiter="-"
+                                    displayFormat="dd-MM-yyyy"
+                                    dateValue="{/startDate}"
+                                    secondDateValue="{/endDate}"
+                                    change=".onDateRangeChange"
+                                />
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItem8"
+                            name="statoTemplate"
+                            label="{i18n>labelInRevisione}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Switch
+                                    id="idswitchstate"
+                                    state="false"
+                                    customTextOn="Si"
+                                    customTextOff="No"
+                                    change=".onSwitchChange"
+                                >
+                                    <layoutData>
+                                        <FlexItemData growFactor="1" />
+                                    </layoutData>
+                                </Switch>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+
+                        <fb:FilterGroupItem
+                            id="_IDGenFilterGroupItemInCreazione"
+                            name="statoTemplate2"
+                            label="{i18n>labelInCreazione}"
+                            groupName="Group1"
+                            visibleInFilterBar="true"
+                        >
+                            <fb:control>
+                                <Switch
+                                    id="idswitchstate2"
+                                    state="false"
+                                    customTextOn="Si"
+                                    customTextOff="No"
+                                    change=".onSwitchChange2"
+                                >
+                                    <layoutData>
+                                        <FlexItemData growFactor="1" />
+                                    </layoutData>
+                                </Switch>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                    </fb:filterGroupItems>
+                </fb:FilterBar>
+                <HBox
+                    id="_IDGenHBox1"
+                    justifyContent="End"
+                    alignContent="SpaceBetween"
+                    class="m-t-24  "
+                >
+                    <Button
+                        id="_IDGenButton12"
+                        text="{i18n>labelAzzera}"
+                        tooltip="{i18n>labelAzzeraCampi}"
+                        class="btn btn-custom-outline m-l-24 sapUiSmallMargin"
+                        press=".onResetFiltersPress"
+                    />
+                    <Button
+                        id="_IDGenButton22"
+                        type="Emphasized"
+                        text="{i18n>labelCerca}"
+                        tooltip="{i18n>labelAvviaRicerca}"
+                        class="btn btn-custom sapUiSmallMarginTop"
+                        press=".onSearch"
+                    />
+                </HBox>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <VBox class="customContentBox">
+                <HBox
+                    justifyContent="Center"
+                    class="sapUiMediumMargin"
+                >
+                    <Text text="{i18n>labelInfoStati}" />
+                </HBox>
+                <HBox
+                    height="auto"
+                    alignItems="Center"
+                    justifyContent="Center"
+                    class="customButtonBox"
+                >
+                    <ToolbarSpacer />
+
+                    <Button
+                        id="ButtonTutti"
+                        icon="sap-icon://bullet-text"
+                        text="{i18n>labelBtnTutti}"
+                        type="Transparent"
+                        class="btn btn-custom"
+                        press="onStatusButtonPress"
+                        app:parameter="tutti"
+                        tooltip="{i18n>labelBtnTuttiTooltip}"
+                    />
+                    <ToolbarSpacer width="2rem" />
+                    <Button
+                        id="ButtonBozza"
+                        icon="sap-icon://edit"
+                        text="{i18n>labelBtnBozza}"
+                        type="Transparent"
+                        class="btn-custom-cta-table"
+                        press="onStatusButtonPress"
+                        app:parameter="B"
+                        tooltip="{i18n>labelBtnBozzaTooltip}"
+                    />
+                    <ToolbarSpacer width="2rem" />
+
+                    <Button
+                        id="ButtonCompilata"
+                        icon="sap-icon://notes"
+                        text="{i18n>labelBtnCompilata}"
+                        class="btn-custom-cta-table"
+                        press="onStatusButtonPress"
+                        app:parameter="C"
+                        tooltip="{i18n>labelBtnCompilataTooltip}"
+                    />
+                    <ToolbarSpacer width="2rem" />
+                    <Button
+                        id="ButtonPubblicata"
+                        icon="sap-icon://complete"
+                        text="{i18n>labelBtnPubblicata}"
+                        class="btn-custom-cta-table"
+                        type="Transparent"
+                        press="onStatusButtonPress"
+                        app:parameter="P"
+                        tooltip="{i18n>labelBtnPubblicataTooltip}"
+                    />
+                    <ToolbarSpacer width="2rem" />
+                    <Button
+                        id="ButtonDisattivata"
+                        icon="sap-icon://decline"
+                        text="{i18n>labelBtnDisattivata}"
+                        class="btn-custom-cta-table"
+                        type="Transparent"
+                        press="onStatusButtonPress"
+                        app:parameter="D"
+                        tooltip="{i18n>labelBtnDisattivataTooltip}"
+                    />
+                    <ToolbarSpacer width="2rem" />
+                    <Button
+                        id="ButtonEliminata"
+                        icon="sap-icon://delete"
+                        text="{i18n>labelBtnEliminata}"
+                        class="btn-custom-cta-table"
+                        type="Transparent"
+                        press="onStatusButtonPress"
+                        app:parameter="E"
+                        tooltip="{i18n>labelBtnEliminataTooltip}"
+                    />
+                    <ToolbarSpacer />
+                </HBox>
+
+                <Table
+                
+                
+                    items="{
+                path:'/Pazienti',
+                sorter: [{
+                    path: 'cognome',
+                    descending: false
+
+                }]
+            }"
+                    inset="false"
+                    class="body-custom-app top-thead-375 m-t-43"
+                    id="tablePazienti"
+                    sticky="ColumnHeaders"
+                    growing="true"
+                    growingThreshold="20"
+                    growingScrollToLoad="false"
+                    growingTriggerText="{i18n>labelChiudi}"
+                    updateFinished="onUpdateFinished"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar id="_IDGenToolbar1">
+                            <!-- <Title
+                                id="_IDGenTitle2"
+                                text="{i18n>labelElencoTemplate} "
+                                wrapping="true"
+                                class="text-bold-18"
+                                level="H2"
+                            /> -->
+                            <ToolbarSpacer id="_IDGenToolbarSpacer3" />
+							<Button
+                                id="nuovoPaziente"
+                                class="btn-custom-cta-table"
+                                text="{i18n>labelNuovPaziente}"
+                                tooltip="{i18n>labelNuovPaziente}"
+                                icon="sap-icon://add-employee"
+                                press="onNuovoPaziente"
+                            />
+                            <Button
+                                id="refresh"
+                                class="btn-custom-cta-table"
+                                text="{i18n>labelAggiornaDati}"
+                                tooltip="{i18n>labelAggiornaDati}"
+                                icon="sap-icon://repost"
+                                press="onRefresh"
+                            />
+                            <Button
+                                id="excel"
+                                class="btn-custom-cta-table"
+                                text="{i18n>labelScaricaExcel}"
+                                tooltip="{i18n>labelScaricaExcel}"
+                                icon="sap-icon://excel-attachment"
+                                press="onExport"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <columns>
+                        <Column demandPopin="true" minScreenWidth="1200px" >
+                            <FlexBox
+                                id="test"
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <Text text="{i18n>labelNomeCognome}" />
+
+                                <Button
+                                    icon="sap-icon://sort"
+                                    press="onOrderTable"
+                                    app:parameter="IdLevel"
+                                />
+                            </FlexBox>
+                        </Column>
+                    </columns>
+                    <columns>
+                        <Column demandPopin="true" minScreenWidth="1200px">
+                            <FlexBox
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <Text text="{i18n>labelEta}" />
+
+                                <Button
+                                    icon="sap-icon://sort"
+                                    press="onOrderTable"
+                                    app:parameter="ShortTextCategory"
+                                />
+                            </FlexBox>
+                        </Column>
+                    </columns>
+                    <columns>
+                        <Column demandPopin="true" minScreenWidth="1200px">
+                            <FlexBox
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <Text text="{i18n>labelStatusRapporto}" />
+                                <Button
+                                    icon="sap-icon://sort"
+                                    press="onOrderTable"
+                                    app:parameter="ShortTextSubcategory"
+                                />
+                            </FlexBox>
+                        </Column>
+                    </columns>
+                    <columns>
+                        <Column
+                            importance="High"
+                            demandPopin="false"                           
+                            mergeDuplicates="false"
+                        >
+                            <FlexBox
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <Text text="{i18n>labelResidenza}" />
+
+                                <Button
+                                    icon="sap-icon://sort"
+                                    press="onOrderTable"
+                                    app:parameter="ShortTextTmpl"
+                                />
+                            </FlexBox>
+                        </Column>
+                    </columns>
+                    <columns>
+                        <Column  demandPopin="true" minScreenWidth="1200px" >
+                            <FlexBox
+                                alignItems="Center"
+                                
+                            >
+                                <Text text="{i18n>labelEmail} " />
+
+                                <Button
+                                    icon="sap-icon://sort"
+                                    press="onOrderTable"
+                                    app:parameter="Freestyle"
+                                />
+                            </FlexBox>
+                        </Column>
+                    </columns>
+                    <columns>
+                        <Column demandPopin="true" minScreenWidth="1200px">
+                            <FlexBox
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <Text text="{i18n>labelTelefono}" />
+                                <Button
+                                    icon="sap-icon://sort"
+                                    press="onOrderTable"
+                                    app:parameter="Status"
+                                />
+                            </FlexBox>
+                        </Column>
+                    </columns>
+                   
+                    <items>
+                        <ColumnListItem
+                            vAlign="Middle"
+                            type="Navigation"
+                            press=".onListItemPressed"
+                        >
+                            <cells>
+                                <Text text="{cognome} {nome}" />
+                                <Text text="{path: 'dataNascita', formatter: '.formatter.formatEta'}" />
+								<ObjectStatus
+                                    text="{StatusRapporto}"
+									/>
+                                <!-- <ObjectStatus
+                                    text="{StatusRapporto}"
+                                    class="sapUiSmallMarginTop sapUiMediumMarginEnd boldBlackTitle"
+                                    state="{path: 'Status', formatter: '.formatter.formatState'}"
+                                /> -->
+                                <Text text="{residenza}" />
+                                <Text
+                                    text="{telefono}"
+                                />
+                                
+                                <Text
+                                    text="{email}"
+                                />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
