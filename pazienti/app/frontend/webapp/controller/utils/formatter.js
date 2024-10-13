@@ -42,7 +42,21 @@ sap.ui.define([
 			}
 		
 			return age;
-		}
+		},
+		
+		formatState: function (stato) {
+            switch (stato) {
+                case "T":
+                    return "Error";
+                case "I":
+                    return "Indication04";
+                case "S":
+                    return "Indication05";
+                case "C":
+                    return "Indication03";              
+            }
+        },
+
 		
 		
 			

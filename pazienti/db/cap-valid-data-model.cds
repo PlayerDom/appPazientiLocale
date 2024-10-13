@@ -11,7 +11,7 @@ entity Pazienti : cuid {
   cognome: String(100) @title: 'Cognome';
   dataNascita: Timestamp @title: 'Data di Nascita';
   CF: String(16) @title: 'Codice Fiscale';
-  StatusRapporto: String(50) @title: 'Status Rapporto' default 'IN ANALISI';
+  StatusRapporto: Association to StatusRapporto;
   residenza: String(255) @title: 'Residenza';
   medicoDiRiferimento: String(100) @title: 'Medico di Riferimento';
   telefono: String(15) @title: 'Telefono';
@@ -100,6 +100,10 @@ entity Interessi : cuid {
   paziente: Association to Pazienti;
 }
 
+entity StatusRapporto : cuid {
+  statusCode: String (25) @title: 'Codice dello stato';
+  statusText: String(255) @title: 'Testo dello stato';
+}
 
 @cds.persistence.skip
 entity UserAuthorizations {

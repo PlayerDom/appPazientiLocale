@@ -84,6 +84,17 @@ entity Interessi @(restrict : [
   }
 ]) as projection on my.Interessi;
 
+entity StatusRapporto @(restrict : [
+  {
+    grant : ['READ'],
+    to    : 'user'
+  },
+  {
+    grant : ['READ', 'WRITE'],
+    to    : 'admin'
+  }
+]) as projection on my.StatusRapporto;
+
 
 
 
