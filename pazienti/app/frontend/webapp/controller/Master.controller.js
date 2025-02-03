@@ -30,6 +30,7 @@ sap.ui.define([
                     authorId : oCtx.getProperty("ID")
                 });
             },
+
             onSearch: function () {
                 var oView = this.getView();
                  // Initialize the array of filters and retrieve values from UI controls to use as filters
@@ -42,10 +43,23 @@ sap.ui.define([
 
             
                 if (templateNome) {
-                    aTableFilters.push(new Filter({
+                    let filtroCognome = new Filter({
                         path: "cognome",
                         operator: FilterOperator.Contains,
                         value1: templateNome
+                    });
+
+                    let filtroNome = new Filter({
+                        path: "nome",
+                        operator: FilterOperator.Contains,
+                        value1: templateNome
+                    });
+                
+
+                
+                    aTableFilters.push(new Filter({
+                        filters: [filtroCognome, filtroNome],
+                        and: false                   
                     }));
                 }
 
@@ -95,6 +109,8 @@ sap.ui.define([
                 this.byId("ButtonTerminato").addStyleClass("btn-custom-cta-table")
                 }
             },
+
+
             onResetFiltersPress: function () {
                 var aTableFilters = [];
                 aTableFilters.push(new Filter({
@@ -136,66 +152,65 @@ sap.ui.define([
                     }
                 });
             },
-            onStatusButtonPress: function (oEvent) {
+
+
+             onStatusButtonPress: function (oEvent) {
                 var oView = this.getView();
-            
+
                 if (oEvent.getSource().hasStyleClass("btn btn-custom")) {
-                    return;
+                    return
                 } else {
-                    var aButtons = oEvent.getSource().getParent().getItems();
-                    for (var i = 0; i < aButtons.length; i++) {
-                        if (aButtons[i].hasStyleClass("btn btn-custom")) {
-                            aButtons[i].removeStyleClass("btn btn-custom");
-                            aButtons[i].addStyleClass("btn-custom-cta-table");
+                    for (var i = 0; i < oEvent.getSource().getParent().getItems().length; i++) {
+                        if (oEvent.getSource().getParent().getItems()[i].hasStyleClass("btn btn-custom")) {
+                            oEvent.getSource().getParent().getItems()[i].removeStyleClass("btn btn-custom")
+                            oEvent.getSource().getParent().getItems()[i].addStyleClass("btn-custom-cta-table")
+
                         }
                     }
-                    oEvent.getSource().removeStyleClass("btn-custom-cta-table");
-                    oEvent.getSource().addStyleClass("btn btn-custom");
+                    oEvent.getSource().removeStyleClass("btn-custom-cta-table")
+                    oEvent.getSource().addStyleClass("btn btn-custom")
+
                 }
-            
-                var sState = oEvent.getSource().getCustomData()[0].getValue();
-            
-                var sFilter = "";
-                if (sState && sState !== "tutti") {
-                    sFilter = "StatusRapporto/all(g:g/statusCode eq '" + sState + "')";
+                var sState = oEvent.getSource().mProperties.text
+               
+
+                switch (sState) {
+                    case "Sospeso":
+                        sState = "S";
+                        break;
+                    case "In corso":
+                        sState = "I";
+                        break;
+                    case "Terminato":
+                        sState = "T";
+                        break;
+                    case "Concluso":
+                        sState = "C";
+                        break;
                 }
-            
-                if (sState === "tutti") {
-                    sFilter = "";
+
+                var aCurrentFilters = oView.getModel("filtersModel").getData();
+                var aFilters = aCurrentFilters.filter(function (oFilter) {
+                    return oFilter.sPath !== "StatusRapporto/statusCode";
+                });
+
+
+                if (sState && sState !== "Tutti") {
+                    aFilters.push(new Filter("StatusRapporto/statusCode", FilterOperator.EQ, sState));
                 }
-            
+                if (sState && sState == "Tutti") {
+                    aFilters.push(new Filter("StatusRapporto/statusCode", FilterOperator.NE, "E"));
+                }
+
+                oView.getModel("filtersModel").setData(aFilters);
+
                 this.oTable = oView.byId("tablePazienti");
-                var sPath = "/Pazienti"; 
-            
-                // Aggiorna il template con lo stesso ordine delle colonne nel tuo XML
-                var oTemplate = new sap.m.ColumnListItem({
-                    cells: [
-                        new sap.m.Text({ text: "{cognome} {nome}" }), // Cognome e Nome
-                        new sap.m.Text({ text: "{path: 'dataNascita', formatter: '.formatter.formatEta'}" }), // Età
-                        new sap.m.Text({ text: "{CF}" }), // Codice Fiscale
-                        new sap.m.ObjectStatus({
-                            text: "{StatusRapporto/statusText}",
-                            state: "{path: 'StatusRapporto/statusCode', formatter: '.formatter.formatState'}",
-                            class: "sapUiSmallMarginTop sapUiMediumMarginEnd boldBlackTitle"
-                        }), // Status Rapporto
-                        new sap.m.Text({ text: "{residenza}" }), // Residenza
-                        new sap.m.Text({ text: "{telefono}" }), // Telefono
-                        new sap.m.Text({ text: "{email}" }) // Email
-                    ]
-                });
-            
-                this.oTable.bindItems({
-                    path: sPath,
-                    template: oTemplate,  
-                    parameters: {
-                        $expand: "StatusRapporto",
-                        $filter: sFilter,
-                        $orderby: "cognome"
-                    }
-                });
-            
+                this.oTable.getBinding("items").filter(aFilters);
                 this.oTable.setShowOverlay(false);
-            }
+            },
+
+
+
             
             
         });
