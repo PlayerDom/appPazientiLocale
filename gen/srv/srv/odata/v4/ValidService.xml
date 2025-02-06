@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="ValidService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Annotation Term="Core.Links">
+        <Collection>
+          <Record>
+            <PropertyValue Property="rel" String="author"/>
+            <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+          </Record>
+        </Collection>
+      </Annotation>
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="Users" EntityType="ValidService.Users"/>
+        <EntitySet Name="Pazienti" EntityType="ValidService.Pazienti"/>
+        <EntitySet Name="RaccoltaAnamnestica" EntityType="ValidService.RaccoltaAnamnestica">
+          <NavigationPropertyBinding Path="paziente" Target="Pazienti"/>
+        </EntitySet>
+        <EntitySet Name="AnamnesiRemota" EntityType="ValidService.AnamnesiRemota">
+          <NavigationPropertyBinding Path="paziente" Target="Pazienti"/>
+        </EntitySet>
+        <EntitySet Name="PrimeFasi" EntityType="ValidService.PrimeFasi">
+          <NavigationPropertyBinding Path="paziente" Target="Pazienti"/>
+        </EntitySet>
+        <EntitySet Name="AnamnesiFisiologica" EntityType="ValidService.AnamnesiFisiologica">
+          <NavigationPropertyBinding Path="paziente" Target="Pazienti"/>
+        </EntitySet>
+        <EntitySet Name="Interessi" EntityType="ValidService.Interessi">
+          <NavigationPropertyBinding Path="paziente" Target="Pazienti"/>
+        </EntitySet>
+        <EntitySet Name="UserAuthorizations" EntityType="ValidService.UserAuthorizations"/>
+      </EntityContainer>
+      <EntityType Name="Users">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="username" Type="Edm.String" MaxLength="100"/>
+        <Property Name="password" Type="Edm.String" MaxLength="100"/>
+      </EntityType>
+      <EntityType Name="Pazienti">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="nome" Type="Edm.String" MaxLength="100"/>
+        <Property Name="cognome" Type="Edm.String" MaxLength="100"/>
+        <Property Name="dataNascita" Type="Edm.Date"/>
+        <Property Name="CF" Type="Edm.String" MaxLength="16"/>
+        <Property Name="StatusRapporto" Type="Edm.String" MaxLength="50" DefaultValue="IN ANALISI"/>
+        <Property Name="residenza" Type="Edm.String" MaxLength="255"/>
+        <Property Name="medicoDiRiferimento" Type="Edm.String" MaxLength="100"/>
+        <Property Name="telefono" Type="Edm.String" MaxLength="15"/>
+        <Property Name="email" Type="Edm.String" MaxLength="100"/>
+      </EntityType>
+      <EntityType Name="RaccoltaAnamnestica">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="motivoVisita" Type="Edm.String" MaxLength="255"/>
+        <Property Name="visitaNpi" Type="Edm.String" MaxLength="255"/>
+        <Property Name="visitaOdontoiatrica" Type="Edm.String" MaxLength="255"/>
+        <Property Name="visitaOrl" Type="Edm.String" MaxLength="255"/>
+        <Property Name="audiometria" Type="Edm.String" MaxLength="255"/>
+        <Property Name="asiloNido" Type="Edm.String" MaxLength="255"/>
+        <Property Name="numeroBambiniFamiglia" Type="Edm.Int32"/>
+        <Property Name="lavoroGenitori" Type="Edm.String" MaxLength="255"/>
+        <Property Name="tempoBambino" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="paziente" Type="ValidService.Pazienti">
+          <ReferentialConstraint Property="paziente_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="paziente_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="AnamnesiRemota">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="gravidanza" Type="Edm.String" MaxLength="255"/>
+        <Property Name="parto" Type="Edm.String" MaxLength="255"/>
+        <Property Name="allattamento" Type="Edm.String" MaxLength="255"/>
+        <Property Name="svezzamento" Type="Edm.String" MaxLength="255"/>
+        <Property Name="deambulazione" Type="Edm.String" MaxLength="255"/>
+        <Property Name="lallazione" Type="Edm.String" MaxLength="255"/>
+        <Property Name="primeParole" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="paziente" Type="ValidService.Pazienti">
+          <ReferentialConstraint Property="paziente_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="paziente_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="PrimeFasi">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="note" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="paziente" Type="ValidService.Pazienti">
+          <ReferentialConstraint Property="paziente_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="paziente_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="AnamnesiFisiologica">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="abitudiniViziate" Type="Edm.String" MaxLength="255"/>
+        <Property Name="raffreddori" Type="Edm.String" MaxLength="255"/>
+        <Property Name="otiti" Type="Edm.String" MaxLength="255"/>
+        <Property Name="sonno" Type="Edm.String" MaxLength="255"/>
+        <Property Name="alimentazione" Type="Edm.String" MaxLength="255"/>
+        <Property Name="allergieIntolleranze" Type="Edm.String" MaxLength="255"/>
+        <Property Name="visiteSpecialistiche" Type="Edm.String" MaxLength="255"/>
+        <Property Name="attenzione" Type="Edm.String" MaxLength="255"/>
+        <Property Name="capacitaSociali" Type="Edm.String" MaxLength="255"/>
+        <Property Name="capacitaRazionali" Type="Edm.String" MaxLength="255"/>
+        <Property Name="gioco" Type="Edm.String" MaxLength="255"/>
+        <Property Name="comunicazione" Type="Edm.String" MaxLength="255"/>
+        <Property Name="apparecchioAcustico" Type="Edm.String" MaxLength="255"/>
+        <Property Name="occhiali" Type="Edm.String" MaxLength="255"/>
+        <Property Name="apparecchioDentale" Type="Edm.String" MaxLength="255"/>
+        <Property Name="apprendimento" Type="Edm.String" MaxLength="255"/>
+        <Property Name="sport" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="paziente" Type="ValidService.Pazienti">
+          <ReferentialConstraint Property="paziente_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="paziente_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="Interessi">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="giocoPreferito" Type="Edm.String" MaxLength="255"/>
+        <Property Name="colorePreferito" Type="Edm.String" MaxLength="255"/>
+        <Property Name="animalePreferito" Type="Edm.String" MaxLength="255"/>
+        <NavigationProperty Name="paziente" Type="ValidService.Pazienti">
+          <ReferentialConstraint Property="paziente_ID" ReferencedProperty="ID"/>
+        </NavigationProperty>
+        <Property Name="paziente_ID" Type="Edm.Guid"/>
+      </EntityType>
+      <EntityType Name="UserAuthorizations">
+        <Key>
+          <PropertyRef Name="user"/>
+        </Key>
+        <Property Name="user" Type="Edm.String" Nullable="false"/>
+        <Property Name="isAdmin" Type="Edm.Boolean"/>
+        <Property Name="isUser" Type="Edm.Boolean"/>
+      </EntityType>
+      <Annotations Target="ValidService.Users/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="ValidService.Users/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+      </Annotations>
+      <Annotations Target="ValidService.Users/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+      </Annotations>
+      <Annotations Target="ValidService.Users/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+      </Annotations>
+      <Annotations Target="ValidService.Users/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+      </Annotations>
+      <Annotations Target="ValidService.Users/username">
+        <Annotation Term="Common.Label" String="Username"/>
+      </Annotations>
+      <Annotations Target="ValidService.Users/password">
+        <Annotation Term="Common.Label" String="Password"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/nome">
+        <Annotation Term="Common.Label" String="Nome"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/cognome">
+        <Annotation Term="Common.Label" String="Cognome"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/dataNascita">
+        <Annotation Term="Common.Label" String="Data di Nascita"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/CF">
+        <Annotation Term="Common.Label" String="Codice Fiscale"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/StatusRapporto">
+        <Annotation Term="Common.Label" String="Status Rapporto"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/residenza">
+        <Annotation Term="Common.Label" String="Residenza"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/medicoDiRiferimento">
+        <Annotation Term="Common.Label" String="Medico di Riferimento"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/telefono">
+        <Annotation Term="Common.Label" String="Telefono"/>
+      </Annotations>
+      <Annotations Target="ValidService.Pazienti/email">
+        <Annotation Term="Common.Label" String="Email"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/motivoVisita">
+        <Annotation Term="Common.Label" String="Motivo Visita"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/visitaNpi">
+        <Annotation Term="Common.Label" String="Visita NPI"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/visitaOdontoiatrica">
+        <Annotation Term="Common.Label" String="Visita Odontoiatrica"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/visitaOrl">
+        <Annotation Term="Common.Label" String="Visita ORL"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/audiometria">
+        <Annotation Term="Common.Label" String="Audiometria"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/asiloNido">
+        <Annotation Term="Common.Label" String="Asilo Nido"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/numeroBambiniFamiglia">
+        <Annotation Term="Common.Label" String="Numero Bambini Famiglia"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/lavoroGenitori">
+        <Annotation Term="Common.Label" String="Lavoro Genitori"/>
+      </Annotations>
+      <Annotations Target="ValidService.RaccoltaAnamnestica/tempoBambino">
+        <Annotation Term="Common.Label" String="Tempo Bambino"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiRemota/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiRemota/gravidanza">
+        <Annotation Term="Common.Label" String="Gravidanza"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiRemota/parto">
+        <Annotation Term="Common.Label" String="Parto"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiRemota/allattamento">
+        <Annotation Term="Common.Label" String="Allattamento"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiRemota/svezzamento">
+        <Annotation Term="Common.Label" String="Svezzamento"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiRemota/deambulazione">
+        <Annotation Term="Common.Label" String="Deambulazione"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiRemota/lallazione">
+        <Annotation Term="Common.Label" String="Lallazione"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiRemota/primeParole">
+        <Annotation Term="Common.Label" String="Prime Parole"/>
+      </Annotations>
+      <Annotations Target="ValidService.PrimeFasi/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="ValidService.PrimeFasi/note">
+        <Annotation Term="Common.Label" String="Note"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/abitudiniViziate">
+        <Annotation Term="Common.Label" String="Abitudini Viziate"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/raffreddori">
+        <Annotation Term="Common.Label" String="Raffreddori"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/otiti">
+        <Annotation Term="Common.Label" String="Otiti"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/sonno">
+        <Annotation Term="Common.Label" String="Sonno"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/alimentazione">
+        <Annotation Term="Common.Label" String="Alimentazione"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/allergieIntolleranze">
+        <Annotation Term="Common.Label" String="Allergie e Intolleranze"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/visiteSpecialistiche">
+        <Annotation Term="Common.Label" String="Visite Specialistiche"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/attenzione">
+        <Annotation Term="Common.Label" String="Attenzione"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/capacitaSociali">
+        <Annotation Term="Common.Label" String="Capacità Sociali"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/capacitaRazionali">
+        <Annotation Term="Common.Label" String="Capacità Razionali"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/gioco">
+        <Annotation Term="Common.Label" String="Gioco"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/comunicazione">
+        <Annotation Term="Common.Label" String="Comunicazione"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/apparecchioAcustico">
+        <Annotation Term="Common.Label" String="Apparecchio Acustico"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/occhiali">
+        <Annotation Term="Common.Label" String="Occhiali"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/apparecchioDentale">
+        <Annotation Term="Common.Label" String="Apparecchio Dentale"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/apprendimento">
+        <Annotation Term="Common.Label" String="Apprendimento"/>
+      </Annotations>
+      <Annotations Target="ValidService.AnamnesiFisiologica/sport">
+        <Annotation Term="Common.Label" String="Sport"/>
+      </Annotations>
+      <Annotations Target="ValidService.Interessi/ID">
+        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+      </Annotations>
+      <Annotations Target="ValidService.Interessi/giocoPreferito">
+        <Annotation Term="Common.Label" String="Gioco Preferito"/>
+      </Annotations>
+      <Annotations Target="ValidService.Interessi/colorePreferito">
+        <Annotation Term="Common.Label" String="Colore Preferito"/>
+      </Annotations>
+      <Annotations Target="ValidService.Interessi/animalePreferito">
+        <Annotation Term="Common.Label" String="Animale Preferito"/>
+      </Annotations>
+      <Annotations Target="ValidService.EntityContainer/UserAuthorizations">
+        <Annotation Term="Capabilities.DeleteRestrictions">
+          <Record Type="Capabilities.DeleteRestrictionsType">
+            <PropertyValue Property="Deletable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.InsertRestrictions">
+          <Record Type="Capabilities.InsertRestrictionsType">
+            <PropertyValue Property="Insertable" Bool="false"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.UpdateRestrictions">
+          <Record Type="Capabilities.UpdateRestrictionsType">
+            <PropertyValue Property="Updatable" Bool="false"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

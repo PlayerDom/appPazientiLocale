@@ -1,0 +1,3 @@
+-- database: ../../../db.sqlite
+
+DELETE FROM my_validexample_Pazienti WHERE ID = '343a844a-e6a8-4a0f-ace6-ddbdafef5aa1';

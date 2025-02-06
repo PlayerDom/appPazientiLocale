@@ -1,0 +1,23 @@
+
+/**
+ * nel packjson inserire il db che abbia come modello db/schema
+ * cds build
+ * cds deploy --to sqlite
+ * Crea il db in sqlite partendo dalle cds
+ * poi tramite query posso aggiungere il resto
+ *
+ *  Debug
+     {
+      "name": "bookshop",
+      "command": "npx cds watch bookshop",
+      "type": "node-terminal",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/**",
+        "**/cds/lib/lazy.js",
+        "**/cds/lib/req/cds-context.js",
+        "**/odata-v4/okra/**"
+      ]
+    }
+ */

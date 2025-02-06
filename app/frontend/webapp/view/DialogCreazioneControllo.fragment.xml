@@ -1,0 +1,139 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified"
+>
+    <Dialog
+        id="controlloEsternoDialogID"
+        title="{i18n>labelCreaNuovoPaziente}"
+        contentWidth="500px"
+        contentHeight="auto"
+        draggable="true"
+        resizable="true"
+        class="body-custom-app top-thead-375 m-t-43"
+    >
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <f:SimpleForm
+                    editable="true"
+                    layout="ResponsiveGridLayout"
+                    labelSpanL="3"
+                    labelSpanM="3"
+                    emptySpanL="0"
+                    emptySpanM="0"
+                    columnsL="2"
+                    columnsM="1"
+                >   
+                    <HBox justifyContent="SpaceBetween">
+                        <VBox >
+                            <Label
+                                id="idCognomeDialog"
+                                text="{i18n>labelCognomeDialog}"
+                                required="true" />
+                                
+                            <Input 
+                                id="idInputCognomeDialog"
+                                required="true"
+                                placeholder="{i18n>placeholderCognomeDialog}" />
+                        </VBox>
+
+
+                        <VBox >
+                            <Label
+                                id="idNomeDialog"
+                                text="{i18n>labelNomeDialog}" 
+                                required="true"/>
+
+                            <Input 
+                                id="idInputNomeDialog"
+                                required="true"
+                                placeholder="{i18n>placeholderNomeDialog}" />
+                        </VBox>
+                    </HBox>
+
+                    <Label
+                        id="idDataNascitaDialog"
+                        text="{i18n>labelidDataNascitaDialog}"
+                    />
+                    <DatePicker 
+                        id="idInputDataNascitaDialog"
+                        placeholder="{i18n>placeholderDataNascitaDialog}" 
+                        valueFormat="dd/MM/yyyy"
+                        displayFormat="dd/MM/yyyy"
+                        liveChange=".onDateLiveChange"
+                        required="true"
+                    />
+
+                    <Label
+                        id="idCodiceFiscaleDialog"
+                        text="{i18n>labelCodiceFiscaleDialog}"
+                    />
+                    <Input 
+                        id="idInputCodiceFiscaleDialog"
+                        liveChange=".onCodiceFiscaleLiveChange"
+                        placeholder="{i18n>placeholderCodiceFiscaleDialog}" 
+                        required="true"
+                        />
+                    
+                    <Label
+                        id="idResidenzaDialog"
+                        text="{i18n>labelResidenzaDialog}"
+                    />
+                    <Input 
+                        id="idInputResidenzaDialog"
+                        required="true"
+                        placeholder="{i18n>placeholderResidenzaDialog}" />
+                    
+                    <Label
+                        id="idTelefonoDialog"
+                        text="{i18n>labelTelefonoDialog}"
+                        required="true"
+                    />
+                    <HBox >
+                    <Input value ="+39" enabled="false" width="50px" class="sapUiTinyMarginEnd" ></Input>
+                    <Input 
+                        id="idInputTelefonoDialog"
+                        required="true"
+                        liveChange=".onTelefonoLiveChange"
+                        type="Tel"
+                        width="300px"
+                        placeholder="{i18n>placeholderTelefonoDialog}" />
+                    </HBox>
+
+                    <Label
+                        id="idEmailDialog"
+                        text="{i18n>labelEmailDialog}"
+                    />
+                    <Input 
+                        id="idInputEmailDialog"
+                        required="true"
+                        liveChange=".onEmailLiveChange"
+                        type="Email"
+                        placeholder="{i18n>placeholderEmailDialog}" />
+                       
+                    
+                </f:SimpleForm>
+            </VBox>
+        </content>
+        <footer>
+            <Toolbar>
+                <content>
+                    <ToolbarSpacer />
+                    <Button
+                        id="idSalvaButtonDialog"
+                        text="{i18n>labelSalva}"
+                        press=".onCreateNuovoPaziente"
+                    />
+                    <Button
+                        text="{i18n>labelAnnulla}"
+                        press=".onCloseCreateDialog"
+                        class="sapUiSmallMarginEnd"
+                        ariaHasPopup="Dialog"
+                    />
+                </content>
+            </Toolbar>
+        </footer>
+    </Dialog>
+</core:FragmentDefinition>

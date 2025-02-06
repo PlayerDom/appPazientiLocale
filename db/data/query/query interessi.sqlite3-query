@@ -1,0 +1,33 @@
+-- database: c:\Users\Domiziano\Desktop\GitHub\CapPazienti\pazienti\db.sqlite
+
+-- database: ../database.db
+
+INSERT INTO my_validexample_interessi (ID, paziente_id, giocoPreferito, colorePreferito, animalePreferito) VALUES
+('b2b2dfb2-4a36-41f2-a3a6-143868896210','c123e456-78ab-12d3-a456-426614174001', 'Calcio', 'Blu', 'Cane'),
+('4f0c02e2-54be-49b0-bf12-9649d5529b3f','b234f567-89cd-23d4-a567-526715284002', 'Pallavolo', 'Rosso', 'Gatto'),
+('9718b852-afd2-4a8c-addd-a58d3a37f1fd','f567g890-01ef-34g5-b678-614815394003', 'Basket', 'Verde', 'Uccello'),
+('5454eb65-9019-4fda-a0c8-06abce8c7f8b','h890i123-45gh-67i8-c789-728937504004', 'Tennis', 'Giallo', 'Pesce'),
+('ef1654a4-b989-4fa1-a720-939f592e5ced','i123j456-78kl-90m1-d234-839023705005', 'Rugby', 'Viola', 'Coniglio'),
+('e3b2804a-57e9-4203-bff1-854d82715161','j345k678-90mn-12o3-e456-941134816006', 'Golf', 'Arancione', 'Tartaruga'),
+('2ac271f4-42f1-4421-b6d9-c1d352ee8dfc','k567l789-01op-34q5-f678-052225927007', 'Nuoto', 'Celeste', 'Cavallo'),
+('f7e17513-06ea-4e65-899e-c2b581b4e846','l789m890-12qr-45s6-g789-163347039008', 'Judo', 'Nero', 'Pappagallo'),
+('68df1eb1-64ce-4c38-b22f-737916d6dbf8','m901n234-23st-56u7-h890-274458150009', 'Ciclismo', 'Bianco', 'Cane'),
+('fbe06e05-eb7c-43b1-93df-4a0c7e026570','n012o345-34uv-67w8-i901-385569261010', 'Atletica', 'Grigio', 'Gatto');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

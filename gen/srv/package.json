@@ -1,0 +1,82 @@
+{
+  "dependencies": {
+    "@sap/cds": "^8.3.1",
+    "cap-utils": "^1.2.6",
+    "sqlite3": "^5.1.7"
+  },
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": "xsuaa",
+        "db": "hana",
+        "destinations": true,
+        "html5-repo": true,
+        "trip": {
+          "kind": "odata",
+          "model": "srv/external/trip",
+          "credentials": {
+            "destination": "trip_service",
+            "forwardAuthToken": true
+          }
+        }
+      },
+      "[development]": {
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "user": {
+              "password": "pw",
+              "roles": [
+                "user"
+              ]
+            },
+            "admin": {
+              "password": "pw",
+              "roles": [
+                "admin"
+              ]
+            }
+          }
+        },
+        "db": {
+        "kind": "sqlite",
+        "model": "db.sqlite"  
+        },
+        "trip": {
+          "kind": "odata",
+          "model": "srv/external/trip",
+          "credentials": {
+            "url": "https://services.odata.org/V4/(S(js3avnqex12bkqcg5trwrf1m))/TripPinServiceRW/"
+          }
+        }
+      },
+      "[hybrid]": {
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "user": {
+              "password": "pw",
+              "roles": [
+                "user"
+              ]
+            },
+            "admin": {
+              "password": "pw",
+              "roles": [
+                "admin"
+              ]
+            }
+          }
+        },
+        "trip": {
+          "kind": "odata",
+          "model": "srv/external/trip",
+          "credentials": {
+            "destination": "trip_service",
+            "forwardAuthToken": true
+          }
+        }
+      }
+    }
+  }
+}

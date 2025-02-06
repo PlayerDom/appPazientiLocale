@@ -1,0 +1,1762 @@
+{
+  "namespace": "my.validexample",
+  "definitions": {
+    "my.validexample.Users": {
+      "kind": "entity",
+      "includes": [
+        "cuid",
+        "managed"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "username": {
+          "@title": "Username",
+          "type": "cds.String",
+          "length": 100
+        },
+        "password": {
+          "@title": "Password",
+          "type": "cds.String",
+          "length": 100
+        }
+      }
+    },
+    "my.validexample.Pazienti": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "nome": {
+          "@title": "Nome",
+          "type": "cds.String",
+          "length": 100
+        },
+        "cognome": {
+          "@title": "Cognome",
+          "type": "cds.String",
+          "length": 100
+        },
+        "dataNascita": {
+          "@title": "Data di Nascita",
+          "type": "cds.Date"
+        },
+        "CF": {
+          "@title": "Codice Fiscale",
+          "type": "cds.String",
+          "length": 16
+        },
+        "StatusRapporto": {
+          "@title": "Status Rapporto",
+          "type": "cds.String",
+          "length": 50,
+          "default": {
+            "val": "IN ANALISI"
+          }
+        },
+        "residenza": {
+          "@title": "Residenza",
+          "type": "cds.String",
+          "length": 255
+        },
+        "medicoDiRiferimento": {
+          "@title": "Medico di Riferimento",
+          "type": "cds.String",
+          "length": 100
+        },
+        "telefono": {
+          "@title": "Telefono",
+          "type": "cds.String",
+          "length": 15
+        },
+        "email": {
+          "@title": "Email",
+          "type": "cds.String",
+          "length": 100
+        }
+      }
+    },
+    "my.validexample.RaccoltaAnamnestica": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "motivoVisita": {
+          "@title": "Motivo Visita",
+          "type": "cds.String",
+          "length": 255
+        },
+        "visitaNpi": {
+          "@title": "Visita NPI",
+          "type": "cds.String",
+          "length": 255
+        },
+        "visitaOdontoiatrica": {
+          "@title": "Visita Odontoiatrica",
+          "type": "cds.String",
+          "length": 255
+        },
+        "visitaOrl": {
+          "@title": "Visita ORL",
+          "type": "cds.String",
+          "length": 255
+        },
+        "audiometria": {
+          "@title": "Audiometria",
+          "type": "cds.String",
+          "length": 255
+        },
+        "asiloNido": {
+          "@title": "Asilo Nido",
+          "type": "cds.String",
+          "length": 255
+        },
+        "numeroBambiniFamiglia": {
+          "@title": "Numero Bambini Famiglia",
+          "type": "cds.Integer"
+        },
+        "lavoroGenitori": {
+          "@title": "Lavoro Genitori",
+          "type": "cds.String",
+          "length": 255
+        },
+        "tempoBambino": {
+          "@title": "Tempo Bambino",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "my.validexample.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "my.validexample.AnamnesiRemota": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "gravidanza": {
+          "@title": "Gravidanza",
+          "type": "cds.String",
+          "length": 255
+        },
+        "parto": {
+          "@title": "Parto",
+          "type": "cds.String",
+          "length": 255
+        },
+        "allattamento": {
+          "@title": "Allattamento",
+          "type": "cds.String",
+          "length": 255
+        },
+        "svezzamento": {
+          "@title": "Svezzamento",
+          "type": "cds.String",
+          "length": 255
+        },
+        "deambulazione": {
+          "@title": "Deambulazione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "lallazione": {
+          "@title": "Lallazione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "primeParole": {
+          "@title": "Prime Parole",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "my.validexample.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "my.validexample.PrimeFasi": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "note": {
+          "@title": "Note",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "my.validexample.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "my.validexample.AnamnesiFisiologica": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "abitudiniViziate": {
+          "@title": "Abitudini Viziate",
+          "type": "cds.String",
+          "length": 255
+        },
+        "raffreddori": {
+          "@title": "Raffreddori",
+          "type": "cds.String",
+          "length": 255
+        },
+        "otiti": {
+          "@title": "Otiti",
+          "type": "cds.String",
+          "length": 255
+        },
+        "sonno": {
+          "@title": "Sonno",
+          "type": "cds.String",
+          "length": 255
+        },
+        "alimentazione": {
+          "@title": "Alimentazione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "allergieIntolleranze": {
+          "@title": "Allergie e Intolleranze",
+          "type": "cds.String",
+          "length": 255
+        },
+        "visiteSpecialistiche": {
+          "@title": "Visite Specialistiche",
+          "type": "cds.String",
+          "length": 255
+        },
+        "attenzione": {
+          "@title": "Attenzione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "capacitaSociali": {
+          "@title": "Capacità Sociali",
+          "type": "cds.String",
+          "length": 255
+        },
+        "capacitaRazionali": {
+          "@title": "Capacità Razionali",
+          "type": "cds.String",
+          "length": 255
+        },
+        "gioco": {
+          "@title": "Gioco",
+          "type": "cds.String",
+          "length": 255
+        },
+        "comunicazione": {
+          "@title": "Comunicazione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "apparecchioAcustico": {
+          "@title": "Apparecchio Acustico",
+          "type": "cds.String",
+          "length": 255
+        },
+        "occhiali": {
+          "@title": "Occhiali",
+          "type": "cds.String",
+          "length": 255
+        },
+        "apparecchioDentale": {
+          "@title": "Apparecchio Dentale",
+          "type": "cds.String",
+          "length": 255
+        },
+        "apprendimento": {
+          "@title": "Apprendimento",
+          "type": "cds.String",
+          "length": 255
+        },
+        "sport": {
+          "@title": "Sport",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "my.validexample.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "my.validexample.Interessi": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "giocoPreferito": {
+          "@title": "Gioco Preferito",
+          "type": "cds.String",
+          "length": 255
+        },
+        "colorePreferito": {
+          "@title": "Colore Preferito",
+          "type": "cds.String",
+          "length": 255
+        },
+        "animalePreferito": {
+          "@title": "Animale Preferito",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "my.validexample.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "my.validexample.UserAuthorizations": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "user": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "isAdmin": {
+          "type": "cds.Boolean"
+        },
+        "isUser": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "ValidService": {
+      "@source": "srv/valid-service.cds",
+      "kind": "service",
+      "@requires": [
+        "authenticated-user",
+        "system-user"
+      ]
+    },
+    "ValidService.Users": {
+      "kind": "entity",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "user"
+        },
+        {
+          "grant": [
+            "READ",
+            "WRITE"
+          ],
+          "to": "admin"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "my.validexample.Users"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "username": {
+          "@title": "Username",
+          "type": "cds.String",
+          "length": 100
+        },
+        "password": {
+          "@title": "Password",
+          "type": "cds.String",
+          "length": 100
+        }
+      }
+    },
+    "ValidService.Pazienti": {
+      "kind": "entity",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "user"
+        },
+        {
+          "grant": [
+            "READ",
+            "WRITE"
+          ],
+          "to": "admin"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "my.validexample.Pazienti"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "nome": {
+          "@title": "Nome",
+          "type": "cds.String",
+          "length": 100
+        },
+        "cognome": {
+          "@title": "Cognome",
+          "type": "cds.String",
+          "length": 100
+        },
+        "dataNascita": {
+          "@title": "Data di Nascita",
+          "type": "cds.Date"
+        },
+        "CF": {
+          "@title": "Codice Fiscale",
+          "type": "cds.String",
+          "length": 16
+        },
+        "StatusRapporto": {
+          "@title": "Status Rapporto",
+          "type": "cds.String",
+          "length": 50,
+          "default": {
+            "val": "IN ANALISI"
+          }
+        },
+        "residenza": {
+          "@title": "Residenza",
+          "type": "cds.String",
+          "length": 255
+        },
+        "medicoDiRiferimento": {
+          "@title": "Medico di Riferimento",
+          "type": "cds.String",
+          "length": 100
+        },
+        "telefono": {
+          "@title": "Telefono",
+          "type": "cds.String",
+          "length": 15
+        },
+        "email": {
+          "@title": "Email",
+          "type": "cds.String",
+          "length": 100
+        }
+      }
+    },
+    "ValidService.RaccoltaAnamnestica": {
+      "kind": "entity",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "user"
+        },
+        {
+          "grant": [
+            "READ",
+            "WRITE"
+          ],
+          "to": "admin"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "my.validexample.RaccoltaAnamnestica"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "motivoVisita": {
+          "@title": "Motivo Visita",
+          "type": "cds.String",
+          "length": 255
+        },
+        "visitaNpi": {
+          "@title": "Visita NPI",
+          "type": "cds.String",
+          "length": 255
+        },
+        "visitaOdontoiatrica": {
+          "@title": "Visita Odontoiatrica",
+          "type": "cds.String",
+          "length": 255
+        },
+        "visitaOrl": {
+          "@title": "Visita ORL",
+          "type": "cds.String",
+          "length": 255
+        },
+        "audiometria": {
+          "@title": "Audiometria",
+          "type": "cds.String",
+          "length": 255
+        },
+        "asiloNido": {
+          "@title": "Asilo Nido",
+          "type": "cds.String",
+          "length": 255
+        },
+        "numeroBambiniFamiglia": {
+          "@title": "Numero Bambini Famiglia",
+          "type": "cds.Integer"
+        },
+        "lavoroGenitori": {
+          "@title": "Lavoro Genitori",
+          "type": "cds.String",
+          "length": 255
+        },
+        "tempoBambino": {
+          "@title": "Tempo Bambino",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "ValidService.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "ValidService.AnamnesiRemota": {
+      "kind": "entity",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "user"
+        },
+        {
+          "grant": [
+            "READ",
+            "WRITE"
+          ],
+          "to": "admin"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "my.validexample.AnamnesiRemota"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "gravidanza": {
+          "@title": "Gravidanza",
+          "type": "cds.String",
+          "length": 255
+        },
+        "parto": {
+          "@title": "Parto",
+          "type": "cds.String",
+          "length": 255
+        },
+        "allattamento": {
+          "@title": "Allattamento",
+          "type": "cds.String",
+          "length": 255
+        },
+        "svezzamento": {
+          "@title": "Svezzamento",
+          "type": "cds.String",
+          "length": 255
+        },
+        "deambulazione": {
+          "@title": "Deambulazione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "lallazione": {
+          "@title": "Lallazione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "primeParole": {
+          "@title": "Prime Parole",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "ValidService.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "ValidService.PrimeFasi": {
+      "kind": "entity",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "user"
+        },
+        {
+          "grant": [
+            "READ",
+            "WRITE"
+          ],
+          "to": "admin"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "my.validexample.PrimeFasi"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "note": {
+          "@title": "Note",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "ValidService.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "ValidService.AnamnesiFisiologica": {
+      "kind": "entity",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "user"
+        },
+        {
+          "grant": [
+            "READ",
+            "WRITE"
+          ],
+          "to": "admin"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "my.validexample.AnamnesiFisiologica"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "abitudiniViziate": {
+          "@title": "Abitudini Viziate",
+          "type": "cds.String",
+          "length": 255
+        },
+        "raffreddori": {
+          "@title": "Raffreddori",
+          "type": "cds.String",
+          "length": 255
+        },
+        "otiti": {
+          "@title": "Otiti",
+          "type": "cds.String",
+          "length": 255
+        },
+        "sonno": {
+          "@title": "Sonno",
+          "type": "cds.String",
+          "length": 255
+        },
+        "alimentazione": {
+          "@title": "Alimentazione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "allergieIntolleranze": {
+          "@title": "Allergie e Intolleranze",
+          "type": "cds.String",
+          "length": 255
+        },
+        "visiteSpecialistiche": {
+          "@title": "Visite Specialistiche",
+          "type": "cds.String",
+          "length": 255
+        },
+        "attenzione": {
+          "@title": "Attenzione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "capacitaSociali": {
+          "@title": "Capacità Sociali",
+          "type": "cds.String",
+          "length": 255
+        },
+        "capacitaRazionali": {
+          "@title": "Capacità Razionali",
+          "type": "cds.String",
+          "length": 255
+        },
+        "gioco": {
+          "@title": "Gioco",
+          "type": "cds.String",
+          "length": 255
+        },
+        "comunicazione": {
+          "@title": "Comunicazione",
+          "type": "cds.String",
+          "length": 255
+        },
+        "apparecchioAcustico": {
+          "@title": "Apparecchio Acustico",
+          "type": "cds.String",
+          "length": 255
+        },
+        "occhiali": {
+          "@title": "Occhiali",
+          "type": "cds.String",
+          "length": 255
+        },
+        "apparecchioDentale": {
+          "@title": "Apparecchio Dentale",
+          "type": "cds.String",
+          "length": 255
+        },
+        "apprendimento": {
+          "@title": "Apprendimento",
+          "type": "cds.String",
+          "length": 255
+        },
+        "sport": {
+          "@title": "Sport",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "ValidService.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "ValidService.Interessi": {
+      "kind": "entity",
+      "@restrict": [
+        {
+          "grant": [
+            "READ"
+          ],
+          "to": "user"
+        },
+        {
+          "grant": [
+            "READ",
+            "WRITE"
+          ],
+          "to": "admin"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "my.validexample.Interessi"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "giocoPreferito": {
+          "@title": "Gioco Preferito",
+          "type": "cds.String",
+          "length": 255
+        },
+        "colorePreferito": {
+          "@title": "Colore Preferito",
+          "type": "cds.String",
+          "length": 255
+        },
+        "animalePreferito": {
+          "@title": "Animale Preferito",
+          "type": "cds.String",
+          "length": 255
+        },
+        "paziente": {
+          "type": "cds.Association",
+          "target": "ValidService.Pazienti",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "ValidService.UserAuthorizations": {
+      "kind": "entity",
+      "@readonly": true,
+      "@cds.persistence.skip": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "my.validexample.UserAuthorizations"
+          ]
+        }
+      },
+      "elements": {
+        "user": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "isAdmin": {
+          "type": "cds.Boolean"
+        },
+        "isUser": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "Language": {
+      "kind": "type",
+      "@title": "{i18n>Language}",
+      "@description": "{i18n>LanguageCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Languages",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Currency": {
+      "kind": "type",
+      "@title": "{i18n>Currency}",
+      "@description": "{i18n>CurrencyCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Currencies",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Country": {
+      "kind": "type",
+      "@title": "{i18n>Country}",
+      "@description": "{i18n>CountryCode.Description}",
+      "type": "cds.Association",
+      "target": "sap.common.Countries",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "Timezone": {
+      "kind": "type",
+      "type": "cds.Association",
+      "target": "sap.common.Timezones",
+      "keys": [
+        {
+          "ref": [
+            "code"
+          ]
+        }
+      ]
+    },
+    "sap.common": {
+      "kind": "context"
+    },
+    "sap.common.Locale": {
+      "kind": "type",
+      "@title": "{i18n>LanguageCode}",
+      "type": "cds.String",
+      "length": 14
+    },
+    "sap.common.Languages": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@Common.Text": {
+            "=": "name"
+          },
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Languages.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Countries": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Countries.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Currencies": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        },
+        "symbol": {
+          "@title": "{i18n>CurrencySymbol}",
+          "type": "cds.String",
+          "length": 5
+        },
+        "minorUnit": {
+          "@title": "{i18n>CurrencyMinorUnit}",
+          "type": "cds.Int16"
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Currencies.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.Timezones": {
+      "kind": "entity",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "includes": [
+        "sap.common.CodeList"
+      ],
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@title": "{i18n>TimeZoneCode}",
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        },
+        "texts": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.common.Timezones.texts",
+          "on": [
+            {
+              "ref": [
+                "texts",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            }
+          ]
+        },
+        "localized": {
+          "type": "cds.Association",
+          "target": "sap.common.Timezones.texts",
+          "on": [
+            {
+              "ref": [
+                "localized",
+                "code"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "code"
+              ]
+            },
+            "and",
+            {
+              "ref": [
+                "localized",
+                "locale"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$user",
+                "locale"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "sap.common.CodeList": {
+      "kind": "aspect",
+      "@cds.autoexpose": true,
+      "@cds.persistence.skip": "if-unused",
+      "@UI.Identification": [
+        {
+          "Value": {
+            "=": "name"
+          }
+        }
+      ],
+      "@cds.odata.valuelist": true,
+      "elements": {
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": true,
+          "type": "cds.String",
+          "length": 1000
+        }
+      }
+    },
+    "sap.common.TextsAspect": {
+      "kind": "aspect",
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        }
+      }
+    },
+    "cuid": {
+      "kind": "aspect",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        }
+      }
+    },
+    "managed": {
+      "kind": "aspect",
+      "elements": {
+        "createdAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "createdBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@Core.Immutable": true,
+          "@title": "{i18n>CreatedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        },
+        "modifiedAt": {
+          "@cds.on.insert": {
+            "=": "$now"
+          },
+          "@cds.on.update": {
+            "=": "$now"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedAt}",
+          "@readonly": true,
+          "type": "cds.Timestamp"
+        },
+        "modifiedBy": {
+          "@cds.on.insert": {
+            "=": "$user"
+          },
+          "@cds.on.update": {
+            "=": "$user"
+          },
+          "@UI.HiddenFilter": true,
+          "@UI.ExcludeFromNavigationContext": true,
+          "@title": "{i18n>ChangedBy}",
+          "@readonly": true,
+          "@description": "{i18n>UserID.Description}",
+          "type": "User",
+          "length": 255
+        }
+      }
+    },
+    "temporal": {
+      "kind": "aspect",
+      "elements": {
+        "validFrom": {
+          "@cds.valid.from": true,
+          "type": "cds.Timestamp"
+        },
+        "validTo": {
+          "@cds.valid.to": true,
+          "type": "cds.Timestamp"
+        }
+      }
+    },
+    "User": {
+      "kind": "type",
+      "@title": "{i18n>UserID}",
+      "@description": "{i18n>UserID.Description}",
+      "type": "cds.String",
+      "length": 255
+    },
+    "sap.common.Languages.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@Common.Text": {
+            "=": "name"
+          },
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        }
+      }
+    },
+    "sap.common.Countries.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CountryCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Currencies.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>CurrencyCode}",
+          "@Common.Text": {
+            "=": "name"
+          },
+          "key": true,
+          "type": "cds.String",
+          "length": 3
+        }
+      }
+    },
+    "sap.common.Timezones.texts": {
+      "kind": "entity",
+      "@odata.draft.enabled": false,
+      "includes": [
+        "sap.common.TextsAspect"
+      ],
+      "elements": {
+        "locale": {
+          "@title": "{i18n>LanguageCode}",
+          "key": true,
+          "type": "sap.common.Locale",
+          "length": 14
+        },
+        "name": {
+          "@title": "{i18n>Name}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 255
+        },
+        "descr": {
+          "@title": "{i18n>Description}",
+          "localized": null,
+          "type": "cds.String",
+          "length": 1000
+        },
+        "code": {
+          "@odata.containment.ignore": true,
+          "@title": "{i18n>TimeZoneCode}",
+          "key": true,
+          "type": "cds.String",
+          "length": 100
+        }
+      }
+    }
+  },
+  "meta": {
+    "creator": "CDS Compiler v5.3.2",
+    "flavor": "inferred"
+  },
+  "$version": "2.0"
+}
