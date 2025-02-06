@@ -170,6 +170,9 @@
                     </HBox>
             </f:DynamicPageHeader>
         </f:header>
+        
+        
+        
         <f:content>
             <VBox class="customContentBox">
                 <HBox
@@ -275,16 +278,16 @@
                                 text="{i18n>labelNuovPaziente}"
                                 tooltip="{i18n>labelNuovPaziente}"
                                 icon="sap-icon://add-employee"
-                                press="onNuovoPaziente"
+                                press="onOpenCreateDialog"
                             />
-                            <Button
+                            <!-- <Button
                                 id="refresh"
                                 class="btn-custom-cta-table"
                                 text="{i18n>labelAggiornaDati}"
                                 tooltip="{i18n>labelAggiornaDati}"
                                 icon="sap-icon://repost"
                                 press="onRefresh"
-                            />
+                            /> -->
                             <Button
                                 id="excel"
                                 class="btn-custom-cta-table"
@@ -296,7 +299,7 @@
                         </OverflowToolbar>
                     </headerToolbar>
 
-                    <columns>
+ <columns>
                         <Column
                             demandPopin="true"
                             minScreenWidth="1200px"
@@ -311,7 +314,7 @@
                                 <Button
                                     icon="sap-icon://sort"
                                     press="onOrderTable"
-                                    app:parameter="IdLevel"
+                                    app:parameter="cognome"
                                 />
                             </FlexBox>
                         </Column>
@@ -330,7 +333,7 @@
                                 <Button
                                     icon="sap-icon://sort"
                                     press="onOrderTable"
-                                    app:parameter="ShortTextCategory"
+                                    app:parameter="dataNascita"
                                 />
                             </FlexBox>
                         </Column>
@@ -348,7 +351,7 @@
                                 <Button
                                     icon="sap-icon://sort"
                                     press="onOrderTable"
-                                    app:parameter="ShortTextSubcategory"
+                                    app:parameter="CF"
                                 />
                             </FlexBox>
                         </Column>
@@ -366,7 +369,7 @@
                                 <Button
                                     icon="sap-icon://sort"
                                     press="onOrderTable"
-                                    app:parameter="ShortTextSubcategory"
+                                    app:parameter="StatusRapporto/statusCode"
                                 />
                             </FlexBox>
                         </Column>
@@ -386,7 +389,7 @@
                                 <Button
                                     icon="sap-icon://sort"
                                     press="onOrderTable"
-                                    app:parameter="ShortTextTmpl"
+                                    app:parameter="residenza"
                                 />
                             </FlexBox>
                         </Column>
@@ -397,12 +400,12 @@
                             minScreenWidth="1200px"
                         >
                             <FlexBox alignItems="Center">
-                                <Text text="{i18n>labelEmail} " />
+                                <Text text="{i18n>labelTelefono} " />
 
                                 <Button
                                     icon="sap-icon://sort"
                                     press="onOrderTable"
-                                    app:parameter="Freestyle"
+                                    app:parameter="telefono"
                                 />
                             </FlexBox>
                         </Column>
@@ -416,11 +419,11 @@
                                 alignItems="Center"
                                 justifyContent="Start"
                             >
-                                <Text text="{i18n>labelTelefono}" />
+                                <Text text="{i18n>labelEmail}" />
                                 <Button
                                     icon="sap-icon://sort"
                                     press="onOrderTable"
-                                    app:parameter="Status"
+                                    app:parameter="email"
                                 />
                             </FlexBox>
                         </Column>

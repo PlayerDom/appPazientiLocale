@@ -43,17 +43,33 @@ sap.ui.define([
 		
 			return age;
 		},
+
+		formatDateTime: function (sTime) {
+            var oDateTimeFormatter = DateFormat.getDateTimeInstance({
+                pattern: "dd/MM/yyyy"
+            });
+            if (sTime) {
+                var sDateTime = sTime;
+
+                var oDate = new Date(sDateTime);
+
+                return oDateTimeFormatter.format(oDate);
+            } else {
+                return "";
+            }
+        },
+
 		
 		formatState: function (stato) {
             switch (stato) {
                 case "T":
-                    return "Error";
-                case "I":
-                    return "Indication04";
-                case "S":
                     return "Indication05";
+                case "I":
+                    return "Indication10";
+                case "S":
+                    return "Indication06";
                 case "C":
-                    return "Indication03";              
+                    return "Indication04";              
             }
         },
 

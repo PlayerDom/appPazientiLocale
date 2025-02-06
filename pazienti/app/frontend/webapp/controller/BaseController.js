@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/core/routing/History",
-	"sap/ui/core/UIComponent"
-], function(Controller, History, UIComponent) {
+	"sap/ui/core/UIComponent",
+	"sap/ui/core/BusyIndicator",
+], function(Controller, History, UIComponent,BusyIndicator) {
 	"use strict";
 
 	return Controller.extend("frontend.controller.BaseController", {
@@ -32,6 +33,12 @@ sap.ui.define([
 		_getText : function (sTextId) {
 			return this.getOwnerComponent().getModel("i18n").getResourceBundle().getText(sTextId);
 		},
+
+		_setBusy: function (bool) {
+			BusyIndicator.hide();
+			if (bool) BusyIndicator.show();
+		},
+
 
 	});
 
