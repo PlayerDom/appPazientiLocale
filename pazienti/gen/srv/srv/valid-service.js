@@ -18,17 +18,28 @@ module.exports = async function () {
         };
     });
 
-    this.on('READ', 'Pazienti', async (req) => {
-        try {
-          const db = await cds.connect.to('db');  // Usa il nome del database
-          const result = await db.run(SELECT.from('my_validexample_Pazienti'));
-          console.log("Dati dei pazienti:", result);
-          req.reply(result);
-        } catch (error) {
-          console.error("Errore durante la lettura dei pazienti:", error);
-          req.reply([]);
+ // **Leggere tutti i pazienti**
+ this.on('READ', 'Pazienti', async (req) => {
+    try {
+        if (req.params.length > 0) {
+            // **Recupera un paziente specifico per ID**
+            const { ID } = req.params[0];
+            const result = await db.run(SELECT.from('my_validexample_Pazienti').where({ ID }));
+            
+            if (result.length === 0) {
+                req.error(404, `Paziente con ID ${ID} non trovato.`);
+            }
+            return result[0];  // Restituisce un singolo oggetto
+        } else {
+            // **Recupera tutti i pazienti**
+            const result = await db.run(SELECT.from('my_validexample_Pazienti'));
+            return result;
         }
-      });
+    } catch (error) {
+        console.error("Errore durante la lettura dei pazienti:", error);
+        req.error(500, "Errore nel recupero dei pazienti.");
+    }
+});
 
       this.on('CREATE', 'Pazienti', async (req) => {
         try {

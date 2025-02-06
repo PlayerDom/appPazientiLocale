@@ -1,0 +1,187 @@
+<mvc:View controllerName="frontend.controller.Paziente"
+	xmlns="sap.m"
+	xmlns:c="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:form="sap.ui.layout.form" busyIndicatorDelay="0"
+	xmlns:layout="sap.ui.layout"
+	xmlns:m="sap.m"
+	xmlns:uxap="sap.uxap"
+	xmlns:l="sap.ui.layout" height="100%">
+
+	<uxap:ObjectPageLayout id="ObjectPageLayout" enableLazyLoading="true" beforeNavigate="onBeforeNavigate" useIconTabBar="true" showTitleInHeaderContent="true" upperCaseAnchorBar="false">
+		<uxap:headerTitle>
+			<uxap:ObjectPageDynamicHeaderTitle>
+				<uxap:expandedHeading>
+					<m:Title text="{pazienteModel>/cognome} {pazienteModel>/nome}" wrapping="true"/>
+				</uxap:expandedHeading>
+
+				<uxap:snappedHeading>
+					<m:FlexBox fitContainer="true" alignItems="Center">
+						<m:Avatar src="./images/imageID_275314.png" class="sapUiTinyMarginEnd"/>
+						<m:Title text="Denise Smith" wrapping="true" />
+					</m:FlexBox>
+				</uxap:snappedHeading>
+
+				<!-- <uxap:expandedContent>
+					<m:Text text="Senior UI Developer"/>
+				</uxap:expandedContent>
+
+				<uxap:snappedContent>
+					<m:Text text="Senior UI Developer"/>
+				</uxap:snappedContent>
+
+				<uxap:snappedTitleOnMobile>
+					<m:Title text="Senior UI Developer"/>
+				</uxap:snappedTitleOnMobile> -->
+
+				<uxap:actions>
+					<!-- <m:Button text="Modifica" type="Emphasized" press="onEdit"/> -->
+					<m:Button type="Critical" text="Sospendi"/>
+					<m:Button type="Negative" text="Termina"/>
+					<m:Button type="Success" text="Concludi"/>
+				</uxap:actions>
+			</uxap:ObjectPageDynamicHeaderTitle>
+		</uxap:headerTitle>
+
+		<uxap:headerContent>
+			<m:FlexBox wrap="Wrap" fitContainer="true">
+				<m:Avatar class="sapUiSmallMarginEnd" src="./images/imageID_275314.png" displaySize="L" />
+
+				<layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
+					<Label text="Recapiti:"></Label>
+					<m:Link text="+33 6 4512 5158"/>
+					<m:Link text="DeniseSmith@sap.com"/>
+				</layout:VerticalLayout>
+
+				<!-- <layout:HorizontalLayout class="sapUiSmallMarginBeginEnd">
+					<m:Image src="./test-resources/sap/uxap/images/linkedin.png"/>
+					<m:Image src="./test-resources/sap/uxap/images/Twitter.png" class="sapUiSmallMarginBegin"/>
+				</layout:HorizontalLayout>
+
+				<layout:VerticalLayout class="sapUiSmallMarginBeginEnd">
+					<m:Label text="Hello! I am Denise and I use UxAP"/>
+					<m:VBox>
+						<m:Label text="Achieved goals"/>
+						<m:ProgressIndicator percentValue="30" displayValue="30%"/>
+					</m:VBox>
+				</layout:VerticalLayout> -->
+
+				<layout:VerticalLayout class="sapUiLargeMarginBeginEnd" >
+					<m:Label text="Indirizzo: {pazienteModel>/residenza}"/>
+					<m:Label text="Codice Fiscale: {pazienteModel>/CF}"/>
+					<m:Label text="Medico di Riferimento: {pazienteModel>/medicoDiRiferimento}"/>
+				</layout:VerticalLayout>
+			</m:FlexBox>
+		</uxap:headerContent>
+
+		<uxap:sections>
+
+			<uxap:ObjectPageSection titleUppercase="false" id="RaccoltaAnamnestica" title="Raccolta Anamnestica">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection id="RaccoltaAnamnesticaSubSec" titleUppercase="false">
+						<uxap:blocks>
+							<VBox id="idVBox">
+
+								<FlexBox justifyContent="End" alignItems="End">
+									<Button id="editRacAnamnestica" type="Transparent" press="onEditTest" text="{i18n>labelEdit}" />
+									<Button id="annullaEditRacAnamnestica" type="Transparent" press="onEditTest" text="{i18n>labelAnnulla}"  visible="false"/>
+									<Button id="salvaRacAnamnestica" type="Transparent" press="onEditTest" text="{i18n>labelSalva}" visible="false"/>
+								</FlexBox>
+
+								<!-- Form di input con testo invisibile per ogni campo, senza valori precompilati -->
+								<form:SimpleForm id="form" editable="true" layout="ColumnLayout" columnsM="2" columnsL="2" columnsXL="2">
+									<form:content >
+
+										<Label text="Nome" class="sapUiSmallMarginTop" />
+										<Input id="nome" placeholder="Inserisci il nome" visible="false" />
+										<Text text="Nome invisibile" class="sapUiSmallMarginTop"/>
+
+										<Label text="Cognome" class="sapUiSmallMarginTop" />
+										<Input id="cognome" placeholder="Inserisci il cognome" visible="false"/>
+										<Text text="Cognome invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Data di Nascita" class="sapUiSmallMarginTop"/>
+										<Input id="data_nascita" type="Date" placeholder="Inserisci la data di nascita" visible="false" />
+										<Text text="Data di Nascita invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Indirizzo di Residenza" class="sapUiSmallMarginTop"/>
+										<Input id="residenza" placeholder="Inserisci l'indirizzo" visible="false" />
+										<Text text="Indirizzo invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Telefono" class="sapUiSmallMarginTop"/>
+										<Input id="telefono" type="Tel" placeholder="Inserisci il numero di telefono" visible="false" />
+										<Text text="Telefono invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Email" class="sapUiSmallMarginTop"/>
+										<Input id="email" type="Email" placeholder="Inserisci l'email" visible="false"/>
+										<Text text="Email invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="C.F." class="sapUiSmallMarginTop"/>
+										<Input id="CF" placeholder="Inserisci il codice fiscale" visible="false"/>
+										<Text text="C.F. invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Medico di riferimento" class="sapUiSmallMarginTop"/>
+										<Input id="medico_di_riferimento" placeholder="Inserisci il medico di riferimento" visible="false"/>
+										<Text text="Medico invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Motivo Visita" class="sapUiSmallMarginTop"/>
+										<Input id="motivo_visita" placeholder="Inserisci il motivo della visita" visible="false"/>
+										<Text text="Motivo Visita invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Visita NPI" class="sapUiSmallMarginTop"/>
+										<Input id="visita_npi" placeholder="Inserisci la visita NPI" visible="false"/>
+										<Text text="Visita NPI invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Visita Odontoiatrica" class="sapUiSmallMarginTop"/>
+										<Input id="visita_odontoiatrica" placeholder="Inserisci la visita odontoiatrica" visible="false"/>
+										<Text text="Visita Odontoiatrica invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Visita ORL" class="sapUiSmallMarginTop"/>
+										<Input id="visita_orl" placeholder="Inserisci la visita ORL" visible="false"/>
+										<Text text="Visita ORL invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Audiometria" class="sapUiSmallMarginTop"/>
+										<Input id="audiometria" placeholder="Inserisci l'audiometria" visible="false"/>
+										<Text text="Audiometria invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Asilo Nido" class="sapUiSmallMarginTop"/>
+										<Input id="asilo_nido" placeholder="Inserisci l'asilo nido" visible="false"/>
+										<Text text="Asilo Nido invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Numero di Bambini in Famiglia" class="sapUiSmallMarginTop"/>
+										<Input id="numero_bambini_famiglia" type="Number" placeholder="Inserisci il numero di bambini" visible="false"/>
+										<Text text="Numero Bambini invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Lavoro Genitori" class="sapUiSmallMarginTop"/>
+										<Input id="lavoro_genitori" placeholder="Inserisci il lavoro dei genitori" visible="false"/>
+										<Text text="Lavoro Genitori invisibile" class="sapUiSmallMarginTop" />
+
+										<Label text="Tempo con il Bambino" class="sapUiSmallMarginTop"/>
+										<Input id="tempo_bambino" placeholder="Inserisci il tempo con il bambino" visible="false"/>
+										<Text text="Tempo con il Bambino invisibile" class="sapUiSmallMarginTop" />
+									</form:content>
+								</form:SimpleForm>
+
+							</VBox>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+			<uxap:ObjectPageSection titleUppercase="false" id="personal" title="Personal">
+				<uxap:subSections>
+					<uxap:ObjectPageSubSection id="d" titleUppercase="false">
+						<uxap:blocks>
+							<Text text="Prova"/>
+						</uxap:blocks>
+					</uxap:ObjectPageSubSection>
+				</uxap:subSections>
+			</uxap:ObjectPageSection>
+
+
+
+		</uxap:sections>
+	</uxap:ObjectPageLayout>
+</mvc:View>
+ 
+

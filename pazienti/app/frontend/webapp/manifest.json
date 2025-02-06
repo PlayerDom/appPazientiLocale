@@ -122,10 +122,10 @@
           ]
         },
         {
-          "name": "author",
-          "pattern": "author/{authorId}:?query:",
+          "name": "paziente",
+          "pattern": "paziente/{pazienteId}:?query:",
           "target": [
-            "author"
+            "paziente"
           ]
         }
       ],
@@ -144,12 +144,12 @@
           "viewId": "NotFound",
           "viewName": "NotFound"
         },
-        "author": {
+        "paziente": {
           "viewType": "XML",
           "transition": "show",
           "clearControlAggregation": false,
-          "viewId": "Author",
-          "viewName": "Author"
+          "viewId": "Paziente",
+          "viewName": "Paziente"
         }
       }
     },

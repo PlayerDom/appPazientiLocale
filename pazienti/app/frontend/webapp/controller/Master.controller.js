@@ -31,11 +31,11 @@ sap.ui.define([
                 var oItem, oCtx;
                 oItem = oEvent.getSource();
                 oCtx = oItem.getBindingContext();
-                this.getRouter().navTo("author", {
-                    authorId: oCtx.getProperty("ID")
+                this.getRouter().navTo("paziente", {
+                    pazienteId: oCtx.getProperty("ID")
                 });
             },
-
+//------------------------- FILTRI E ORDINAMENTO -------------------------------------------------
             onSearch: function () {
                 var oView = this.getView();
                 // Initialize the array of filters and retrieve values from UI controls to use as filters
@@ -240,7 +240,7 @@ sap.ui.define([
 
 
 
-            /*----------------------------------------------------------------- SEZIONE DIALOG NUOVI PAZIENTI ---------------------------------------------------------------- */
+/*------------------------------------------ SEZIONE DIALOG NUOVI PAZIENTI ---------------------------------------------------------------- */
             onOpenCreateDialog: function () {
                 if (!this._oControlloDialog) {
                     Fragment.load({
@@ -419,64 +419,54 @@ sap.ui.define([
                         sap.m.MessageBox.error(error.message);
                     });
             },
-        //------------------------------------------------------ DOWNLOAD EXCEL ------------------------------------------------------------------------
+//------------------------------------------------------ DOWNLOAD EXCEL ------------------------------------------------------------------------
 
-        onExport: function () {
-            this._setBusy(true);
-            let oView = this.getView();
-            let oModel = oView.getModel(); 
-            var oResourceBundle = oView.getModel("i18n").getResourceBundle();
-            var oFilters = this.getView().getModel("filtersModel").getData()
+            onExport: function () {
+                this._setBusy(true);
+                let oView = this.getView();
+                let oModel = oView.getModel();
+                var oResourceBundle = oView.getModel("i18n").getResourceBundle();
+                var oFilters = this.getView().getModel("filtersModel").getData()
 
-            let that = this;
-            var aCols, oRowBinding, oSettings, oSheet;
+                let that = this;
+                var aCols, oRowBinding, oSettings, oSheet;
 
-            fetch("http://localhost:4004/odata/v4/valid/Pazienti?$expand=StatusRapporto", {  // Assumi che l'endpoint CAP sia questo
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Errore nel recupero dei dati');
-                }
-                return response.json();
-            })
-            .then(oData => {
-                that._setBusy(false);
-                aCols = template.createColumnConfigMaster(oResourceBundle);
-                oRowBinding = oData.value; // CAP solitamente restituisce { value: [...] }
-                
-                oSettings = {
-                    workbook: {
-                        columns: aCols
-                    },
-                    dataSource: oRowBinding,
-                    fileName: 'Lista_Pazienti' + formatter.formatDateTime(new Date())
-                };
-            
-                oSheet = new Spreadsheet(oSettings);
-                oSheet.build().finally(() => {
-                    oSheet.destroy();
-                });
-            })
-            .catch(error => {
-                that._setBusy(false);
-                MessageBox.error(that._getText('excelError'));
-                console.error(error);
-            });
-            
-      
+                fetch("http://localhost:4004/odata/v4/valid/Pazienti?$expand=StatusRapporto", {  // Assumi che l'endpoint CAP sia questo
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Errore nel recupero dei dati');
+                        }
+                        return response.json();
+                    })
+                    .then(oData => {
+                        that._setBusy(false);
+                        aCols = template.createColumnConfigMaster(oResourceBundle, oData.value);
+                        oRowBinding = oData.value; // CAP solitamente restituisce { value: [...] }
 
-         
-            
-        },
+                        oSettings = {
+                            workbook: {
+                                columns: aCols
+                            },
+                            dataSource: oRowBinding,
+                            fileName: 'Lista_Pazienti' + formatter.formatDateTime(new Date())
+                        };
 
-
-
-
-
+                        oSheet = new Spreadsheet(oSettings);
+                        oSheet.build().finally(() => {
+                            oSheet.destroy();
+                        });
+                    })
+                    .catch(error => {
+                        that._setBusy(false);
+                        MessageBox.error(that._getText('excelError'));
+                        console.error(error);
+                    });
+            },
 
         });
     });
