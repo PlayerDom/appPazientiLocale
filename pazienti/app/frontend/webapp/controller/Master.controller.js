@@ -35,7 +35,7 @@ sap.ui.define([
                     pazienteId: oCtx.getProperty("ID")
                 });
             },
-//------------------------- FILTRI E ORDINAMENTO -------------------------------------------------
+            //------------------------- FILTRI E ORDINAMENTO -------------------------------------------------
             onSearch: function () {
                 var oView = this.getView();
                 // Initialize the array of filters and retrieve values from UI controls to use as filters
@@ -240,7 +240,7 @@ sap.ui.define([
 
 
 
-/*------------------------------------------ SEZIONE DIALOG NUOVI PAZIENTI ---------------------------------------------------------------- */
+            /*------------------------------------------ SEZIONE DIALOG NUOVI PAZIENTI ---------------------------------------------------------------- */
             onOpenCreateDialog: function () {
                 if (!this._oControlloDialog) {
                     Fragment.load({
@@ -419,19 +419,19 @@ sap.ui.define([
                         sap.m.MessageBox.error(error.message);
                     });
             },
-//------------------------------------------------------ DOWNLOAD EXCEL ------------------------------------------------------------------------
+            //------------------------------------------------------ DOWNLOAD EXCEL ------------------------------------------------------------------------
 
             onExport: function () {
                 this._setBusy(true);
                 let oView = this.getView();
                 let oModel = oView.getModel();
                 var oResourceBundle = oView.getModel("i18n").getResourceBundle();
-                var oFilters = this.getView().getModel("filtersModel").getData()
+                var oFilters = this.getView().getModel("filtersModel").getData(); // Recupero filtri
 
                 let that = this;
                 var aCols, oRowBinding, oSettings, oSheet;
 
-                fetch("http://localhost:4004/odata/v4/valid/Pazienti?$expand=StatusRapporto", {  // Assumi che l'endpoint CAP sia questo
+                fetch("http://localhost:4004/odata/v4/valid/Pazienti?$expand=StatusRapporto", {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -445,8 +445,12 @@ sap.ui.define([
                     })
                     .then(oData => {
                         that._setBusy(false);
-                        aCols = template.createColumnConfigMaster(oResourceBundle, oData.value);
-                        oRowBinding = oData.value; // CAP solitamente restituisce { value: [...] }
+
+                        // 🔹 Filtra i dati dopo la fetch
+                        let aFilteredData = that._filterData(oData.value, oFilters);
+
+                        aCols = template.createColumnConfigMaster(oResourceBundle, aFilteredData);
+                        oRowBinding = aFilteredData;
 
                         oSettings = {
                             workbook: {
@@ -467,6 +471,58 @@ sap.ui.define([
                         console.error(error);
                     });
             },
+
+            // 🔹 Funzione per filtrare i dati lato client
+            _filterData: function (aData, aFilters) {
+                return aData.filter(oItem => {
+                    return aFilters.every(oFilter => {
+                        if (oFilter._bMultiFilter) {
+                            // 🔹 Gestione dei filtri multipli (OR)
+                            return oFilter.aFilters.some(subFilter => {
+                                return this._applyFilter(oItem, subFilter);
+                            });
+                        } else {
+                            // 🔹 Gestione dei filtri singoli (AND)
+                            return this._applyFilter(oItem, oFilter);
+                        }
+                    });
+                });
+            },
+            
+            _applyFilter: function (oItem, oFilter) {
+                let sField = oFilter.sPath;  // Esempio: "StatusRapporto/statusCode"
+                let sOperator = oFilter.sOperator;
+                let sValue = oFilter.oValue1;
+            
+                if (!sValue) return true; // Se il filtro è vuoto, non applicarlo
+            
+                // 🔹 Se il percorso è nidificato (es. "StatusRapporto/statusCode"), estraiamo il valore
+                let sItemValue = this._getNestedValue(oItem, sField);
+            
+                if (sItemValue == null) return false; // Se il valore è undefined/null, il filtro non passa
+            
+                let sFilterValue = String(sValue).toLowerCase();
+                sItemValue = String(sItemValue).toLowerCase();
+            
+                switch (sOperator) {
+                    case "Contains":
+                        return sItemValue.includes(sFilterValue);
+                    case "EQ":
+                        return sItemValue === sFilterValue;
+                    default:
+                        return true; // Se l'operatore non è gestito, non filtrare
+                }
+            },
+            
+            // 🔹 Funzione per estrarre il valore anche da campi nidificati
+            _getNestedValue: function (obj, path) {
+                return path.split("/").reduce((acc, part) => acc && acc[part], obj);
+            }
+            
+            
+            
+
+
 
         });
     });
