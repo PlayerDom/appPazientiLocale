@@ -53,9 +53,9 @@ sap.ui.define([
 				});
 		},
 
-		onEditTest: function() {
+		onEditTestRaccoltaAnamnestica: function() {
 			// Ottieni il controllo VBox
-			var oVBox = this.byId("form");  // Sostituisci con l'ID del tuo VBox
+			var oVBox = this.byId("formRaccoltaAnamnestica");  // Sostituisci con l'ID del tuo VBox
 		
 			// Ottieni tutti gli input e text dal VBox
 			var oInputs = oVBox.getContent().filter(function(oItem) {
@@ -92,7 +92,171 @@ sap.ui.define([
 				oSaveButton.setVisible(true);
 				oAnnullaEdif.setVisible(true);
 			}
-		}
+		},
+
+		onEditTestAnamnesiRemota: function() {
+			// Ottieni il controllo VBox
+			var oVBox = this.byId("formAnamnesiRemota");  // Sostituisci con l'ID del tuo VBox
+		
+			// Ottieni tutti gli input e text dal VBox
+			var oInputs = oVBox.getContent().filter(function(oItem) {
+				return oItem.isA("sap.m.Input");
+			});
+			
+			var oTexts = oVBox.getContent().filter(function(oItem) {
+				return oItem.isA("sap.m.Text");
+			});
+		
+			// Determina lo stato corrente (se gli input sono visibili o meno)
+			var bInputsVisible = oInputs[0] ? oInputs[0].getVisible() : false;
+			
+			// Alterna la visibilità degli input e dei text
+			oInputs.forEach(function(oInput) {
+				oInput.setVisible(!bInputsVisible);
+			});
+		
+			oTexts.forEach(function(oText) {
+				oText.setVisible(bInputsVisible);
+			});
+		
+			// Cambia il testo del pulsante
+			var oEditButton = this.byId("editAnamnesiRemota");
+			var oSaveButton = this.byId("salvaAnamnesiRemota");
+			var oAnnullaEdif = this.byId("annullaEditAnamnesiRemota")
+			
+			if (bInputsVisible) {
+				oEditButton.setVisible(true);
+				oSaveButton.setVisible(false);
+				oAnnullaEdif.setVisible(false);
+			} else {
+				oEditButton.setVisible(false);
+				oSaveButton.setVisible(true);
+				oAnnullaEdif.setVisible(true);
+			}
+		},
+
+		onEditTestAnamnesiFisiologica: function() {
+			// Ottieni il controllo VBox
+			var oVBox = this.byId("formAnamnesiFisiologica");  // Sostituisci con l'ID del tuo VBox
+		
+			// Ottieni tutti gli input e text dal VBox
+			var oInputs = oVBox.getContent().filter(function(oItem) {
+				return oItem.isA("sap.m.Input");
+			});
+			
+			var oTexts = oVBox.getContent().filter(function(oItem) {
+				return oItem.isA("sap.m.Text");
+			});
+		
+			// Determina lo stato corrente (se gli input sono visibili o meno)
+			var bInputsVisible = oInputs[0] ? oInputs[0].getVisible() : false;
+			
+			// Alterna la visibilità degli input e dei text
+			oInputs.forEach(function(oInput) {
+				oInput.setVisible(!bInputsVisible);
+			});
+		
+			oTexts.forEach(function(oText) {
+				oText.setVisible(bInputsVisible);
+			});
+		
+			// Cambia il testo del pulsante
+			var oEditButton = this.byId("editAnamnesiFisiologica");
+			var oSaveButton = this.byId("salvaAnamnesiFisiologica");
+			var oAnnullaEdif = this.byId("annullaEditAnamnesiFisiologica")
+			
+			if (bInputsVisible) {
+				oEditButton.setVisible(true);
+				oSaveButton.setVisible(false);
+				oAnnullaEdif.setVisible(false);
+			} else {
+				oEditButton.setVisible(false);
+				oSaveButton.setVisible(true);
+				oAnnullaEdif.setVisible(true);
+			}
+		},
+
+		onEditTestPrimeFasi: function() {
+			// Ottieni il controllo VBox
+			var oVBox = this.byId("formPrimeFasi");  // Sostituisci con l'ID del tuo VBox
+		
+			// Ottieni tutti gli input e text dal VBox
+			var oInputs = oVBox.getContent().filter(function(oItem) {
+				return oItem.isA("sap.m.TextArea");
+			});
+			
+			var oTexts = oVBox.getContent().filter(function(oItem) {
+				return oItem.isA("sap.m.Text");
+			});
+		
+			// Determina lo stato corrente (se gli input sono visibili o meno)
+			var bInputsVisible = oInputs[0] ? oInputs[0].getVisible() : false;
+			
+			// Alterna la visibilità degli input e dei text
+			oInputs.forEach(function(oInput) {
+				oInput.setVisible(!bInputsVisible);
+			});
+		
+			oTexts.forEach(function(oText) {
+				oText.setVisible(bInputsVisible);
+			});
+		
+			// Cambia il testo del pulsante
+			var oEditButton = this.byId("editPrimeFasi");
+			var oSaveButton = this.byId("salvaPrimeFasi");
+			var oAnnullaEdif = this.byId("annullaEditPrimeFasi")
+			
+			if (bInputsVisible) {
+				oEditButton.setVisible(true);
+				oSaveButton.setVisible(false);
+				oAnnullaEdif.setVisible(false);
+			} else {
+				oEditButton.setVisible(false);
+				oSaveButton.setVisible(true);
+				oAnnullaEdif.setVisible(true);
+			}
+		},
+
+		onEditTestInteressi: function() {
+			// Ottieni il controllo VBox
+			var oVBox = this.byId("formInteressi");  // Sostituisci con l'ID del tuo VBox
+		
+			// Ottieni tutti gli input e text dal VBox
+			var oInputs = oVBox.getContent().filter(function(oItem) {
+				return oItem.isA("sap.m.Input");
+			});
+			
+			var oTexts = oVBox.getContent().filter(function(oItem) {
+				return oItem.isA("sap.m.Text");
+			});
+		
+			// Determina lo stato corrente (se gli input sono visibili o meno)
+			var bInputsVisible = oInputs[0] ? oInputs[0].getVisible() : false;
+			
+			// Alterna la visibilità degli input e dei text
+			oInputs.forEach(function(oInput) {
+				oInput.setVisible(!bInputsVisible);
+			});
+		
+			oTexts.forEach(function(oText) {
+				oText.setVisible(bInputsVisible);
+			});
+		
+			// Cambia il testo del pulsante
+			var oEditButton = this.byId("editInteressi");
+			var oSaveButton = this.byId("salvaInteressi");
+			var oAnnullaEdif = this.byId("annullaEditInteressi")
+			
+			if (bInputsVisible) {
+				oEditButton.setVisible(true);
+				oSaveButton.setVisible(false);
+				oAnnullaEdif.setVisible(false);
+			} else {
+				oEditButton.setVisible(false);
+				oSaveButton.setVisible(true);
+				oAnnullaEdif.setVisible(true);
+			}
+		},
 	
 	});
 
